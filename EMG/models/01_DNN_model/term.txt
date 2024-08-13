@@ -1,0 +1,28 @@
+➜  models p DNN_model.py
+Device Used: cuda
+X_train_tensor is on cuda:0
+y_train_tensor is on cuda:0
+Data shape: torch.Size([4361620, 12])
+Labels shape: torch.Size([4361620, 14])
+Epoch [1/10], Loss: 327.8025
+Test Loss: 317.1231
+Epoch [2/10], Loss: 317.5175
+Test Loss: 317.6609
+Epoch [3/10], Loss: 317.4942
+Test Loss: 317.8176
+Epoch [4/10], Loss: 317.4882
+Test Loss: 317.0061
+Epoch [5/10], Loss: 317.4864
+Test Loss: 317.0689
+Epoch [6/10], Loss: 317.4660
+Test Loss: 317.7463
+Epoch [7/10], Loss: 317.4550
+Test Loss: 318.1818
+Epoch [8/10], Loss: 317.4570
+Test Loss: 317.0602
+Epoch [9/10], Loss: 317.4376
+Test Loss: 317.9086
+Epoch [10/10], Loss: 317.4153
+Test Loss: 318.8539
+Model saved: DNN_model.pth
+Total time taken: 00:07:58

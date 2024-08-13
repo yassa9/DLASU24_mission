@@ -1,0 +1,43 @@
+# N = 4361620
+X_train_tabular: (N, 12)
+y_train_tabular: (N, 12)
+
+# N = 203, Seq_lenght = 12246
+X_train_padding: (N, Seq_lenght, 12)
+y_train_padding: (N, Seq_lenght, 12)
+
+# The previous two data are the same but I preprocessed them in two ways (Tabular data, Sequential data) to train More interesting models
+# And of course you can do your own preprocessing BUT "JUST USE THE (EMG) SIGNALS AS YOUR INPUR DON'T COMBINE IT WITH (ACC)"
+# The Original data or one object as you would find it in the Ninapro-website
+# you can use them to preprocess the data as you want also you can find some papers that explain the approach used to collect these data (maybe this will help you understand the dataset)
+
+https://drive.google.com/file/d/1bhrvIGgsKgndZZeNOoXaOIZU8WqyN3in/view?usp=drive_link
+https://drive.google.com/file/d/1aW7bYXEzp_0hytdizV_oo5n7C8woPlz6/view?usp=drive_link
+
+# Here a helper function to compute the output
+
+## Maximum angles for each corresponding joint
+Max_angles = np.array([
+    [15, 50, 80, 0, 0, 120, 90, 0, 120, 90, 90, 0, 120, 90, 90, 0, 120, 90, 90, 0, 0, 0]
+]).reshape(-1, 1)
+
+def GetAngles(gloves_data, max_angles):
+    # calculate the min and max of the data
+    min_val = gloves_data.min()
+    max_val = gloves_data.max()
+
+    # normalize it
+    Normalized_data = ((gloves_data - min_val) / (max_val - min_val))
+
+    # find the angles
+    fing_angles = np.array(Normalized_data) * max_angles.T
+
+    # convert to DataFrame
+    fing_gloves = pd.DataFrame(fing_angles, columns = [f"angles_glove_{i+1}" for i in range(22)])
+
+    return (fing_gloves)
+
+# NOTE: Don't forget to drop these columns
+DataFrame.drop(["angles_glove_4", "angles_glove_5", "angles_glove_8", "angles_glove_12", "angles_glove_16", "angles_glove_20", "angles_glove_21", "angles_glove_22"], axis = 1)
+
+# Before the deadline (maybe on 21/11/23) I will share the testing dataset with you
