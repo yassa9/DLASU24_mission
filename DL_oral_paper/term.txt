@@ -1,0 +1,27 @@
+- Current Device Used: cuda
+- Calculated Mean: tensor([0.7326, 0.5028, 0.4792], device='cuda:0')
+- Calculated Std: tensor([0.1802, 0.2034, 0.1972], device='cuda:0')
+Epoch [1/10], Loss: 2.2773
+Validation Loss: 17.0964, Accuracy: 0.2189
+Epoch [2/10], Loss: 1.7880
+Validation Loss: 1.3598, Accuracy: 0.5292
+Epoch [3/10], Loss: 1.4416
+Validation Loss: 1.0345, Accuracy: 0.6868
+Epoch [4/10], Loss: 1.2410
+Validation Loss: 0.7506, Accuracy: 0.7490
+Epoch [5/10], Loss: 1.0208
+Validation Loss: 0.7776, Accuracy: 0.7636
+Epoch [6/10], Loss: 0.9366
+Validation Loss: 0.4186, Accuracy: 0.8560
+Epoch [7/10], Loss: 0.7745
+Validation Loss: 0.4214, Accuracy: 0.8521
+Epoch [8/10], Loss: 0.6989
+Validation Loss: 0.4479, Accuracy: 0.8424
+Epoch [9/10], Loss: 0.5626
+Validation Loss: 0.1491, Accuracy: 0.9484
+Epoch [10/10], Loss: 0.5281
+Validation Loss: 0.3580, Accuracy: 0.8794
+Training complete
+Plot saved to training_validation_loss_accuracy.png
+Model saved to oral_inception_model.pth
+- Duration: 00:17:03
