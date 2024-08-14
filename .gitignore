@@ -1,2 +1,5 @@
 *.npy
+*.pth
+
+
 oral_data/
