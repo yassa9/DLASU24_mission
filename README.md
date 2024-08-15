@@ -168,3 +168,21 @@ One is `models` and the other is `plots`, you can easily conclude what they're f
     <br />
   </p>
 </div>
+
+---
+
+```
+Validation Loss: 0.5432, Accuracy: 0.8366
+- Duration of Epoch: 00:01:08
+Epoch [10/20], Loss: 0.3642
+Validation Loss: 0.5554, Accuracy: 0.8395
+Early stopping triggered!
+Training complete
+Test Loss: 0.4475, Accuracy: 0.8628
+Plot saved to training_validation_loss_acc_resnet.png
+Model saved to resnet18_model.pth
+- Duration: 00:13:39
+```
+
+- That is output last part (trimmed) out of `ResNet18` model.
+
