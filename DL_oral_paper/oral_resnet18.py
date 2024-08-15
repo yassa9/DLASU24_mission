@@ -113,6 +113,7 @@ early_stopping_counter = 0
 
 # Training loop
 for epoch in range(num_epochs):
+    start_time_epoch = time.time()
     model.train()
     running_loss = 0.0
 
@@ -169,6 +170,15 @@ for epoch in range(num_epochs):
             model.load_state_dict(best_model_wts)
             break
 
+    # Duration of Epoch Tracking
+    end_time_epoch = time.time()
+    elapsed_time_epoch = end_time_epoch - start_time_epoch
+
+    hours = int(elapsed_time_epoch // 3600)
+    minutes = int((elapsed_time_epoch % 3600) // 60)
+    seconds = int(elapsed_time_epoch % 60)
+
+    print(f"- Duration of Epoch: {hours:02}:{minutes:02}:{seconds:02}")
 print("Training complete")
 
 # Test phase
@@ -192,10 +202,13 @@ print(f"Test Loss: {test_loss:.4f}, Accuracy: {test_acc:.4f}")
 # Plot the training and validation loss
 plt.figure(figsize=(12, 5))
 
+# Adjust the epoch range to match the length of recorded losses
+epochs_completed = len(train_losses)
+
 # Subplot for Training and Validation Loss
 plt.subplot(1, 2, 1)
-plt.plot(range(1, num_epochs + 1), train_losses, label='Train Loss')
-plt.plot(range(1, num_epochs + 1), val_losses, label='Validation Loss')
+plt.plot(range(1, epochs_completed + 1), train_losses, label='Train Loss')
+plt.plot(range(1, epochs_completed + 1), val_losses, label='Validation Loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.title('Training and Validation Loss')
@@ -203,7 +216,7 @@ plt.legend()
 
 # Subplot for Validation Accuracy
 plt.subplot(1, 2, 2)
-plt.plot(range(1, num_epochs + 1), val_accuracies, label='Validation Accuracy')
+plt.plot(range(1, epochs_completed + 1), val_accuracies, label='Validation Accuracy')
 plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.title('Validation Accuracy')
