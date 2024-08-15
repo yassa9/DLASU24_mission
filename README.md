@@ -42,7 +42,7 @@ For Full details, see that [PDF](https://github.com/yassa9/DLASU24_mission/blob/
   
 ---
 
-### Problem I
+## Problem I
 #### Problem Statement: 
 
 Finger Angle Prediction from EMG Data
@@ -51,7 +51,7 @@ Finger Angle Prediction from EMG Data
 
 ---
 
-### Problem II
+## Problem II
 
 #### Problem Statement:
 
@@ -96,7 +96,7 @@ One is `models` and the other is `plots`, you can easily conclude what they're f
 
 ---
 
-### Problem III
+## Problem III
 
 #### Problem Statement:
 
