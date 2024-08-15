@@ -18,58 +18,81 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Mission
 
-SceneSynth is a software based on [imgui](https://github.com/ocornut/imgui) C++ library, where it takes new computer vision models along with interacting and utilizing in easiest way by a super fast gui.  
+The mission includes 3 problems where participants are tasked with solving advanced deep learning problems. The test includes:
 
-It's all about deploying models, and avoid much post-processing code.
+  - `Finger Angle Prediction from EMG Data`: Participants will use a preprocessed dataset to build five models (Linear DNN, CNN, RNN, CNN-LSTM). The models must be trained for no more than 10 epochs.
+  
+  - `Data Representation`: Participants must write code to compress or represent the data in a low-dimensional format and visualize it.
+  
+  - `Oral Classification Paper`: Implementing specific methodologies from oral classification paper using InceptionResNetV2 or alternative approach.
 
-You just choose your target image, choose which job you want to execute from detection, classification or segmentation, to pose and depth estimation, then simply press run, and you got your output with all necessary information, avoiding much python copy & paste lines of code.
+For Full details, see that [PDF](https://github.com/yassa9/DLASU24_mission/blob/master/helpful_pdfs/DLASU24_mission.pdf)
+  
+<p align="right">(<a href="#readme-top">Back Top</a>)</p>
+
+---
+
+### Problem I
+#### Problem Statement: 
+
+Finger Angle Prediction from EMG Data
 
 <p align="right">(<a href="#readme-top">Back Top</a>)</p>
 
-### Built With
+---
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+### Problem II
 
-* [![ImGui][imgui]][imgui-url]
-* [![C++][cpp]][cpp-url]
-* [![C][c]][c-url]
-* [![Cmake][cmake]][cmake-url]
-* [![Python][python]][python-url]
-* [![openCV][opencv]][opencv-url]
-* [![Libtorch][libtorch]][libtorch-url]
+#### Problem Statement:
 
-<p align="right">(<a href="#readme-top">Back Top</a>)</p>
+For the same problem above with the same data used how we can represent the data ? \
+write a code that compress the data or represent the data with low dimensional representation and plot it.
 
-<!-- GETTING STARTED -->
-## Getting Started
+In `EMG` directory, there is a sub-dir called `representational_learning` containing 2 other sub-dirs. \
+One is `models` and the other is `plots`, you can easily conclude what they're for ... 
 
-Follow these instructions to set up your project locally.
+#### My Solution Choice:
 
-### Prerequisites
+- Used `PCA` & `t-SNE` approaches.
+- I wasn't comfortable at first applying them by `CPU` not `GPU`, tried to implement t-SNE on my own by `pyTorch` by sending tensors to `CUDA`, and it asked for 70TB of memory !!
+- I implemented t-SNE using just `10 ~ 20k samples` as it is computationaly expensive.
+- I found another approach called `UMAP` but I was satisfied by PCA and t-SNE results.
 
-Ensure you have Python installed. You can download it from [python.org](https://www.python.org/).
+#### Assumptions Taken:
 
-### Installation
+  - The number of components for PCA is set to 3, assuming that the original data's dimensionality can be effectively reduced to 3 without losing significant information.
+  - PCA is used to reduce the dimensionality of the data for visualization purposes. It assumes that the first three principal components capture a significant portion of the variance.
+  - For t-SNE: using a random subset of the data (20,000 samples) as it's super computational expensive to include whole dataset.
+  - The number of components for t-SNE is set to 2.
+    
+<div align="center">
+  <a href="https://github.com/yassa9/DLASU24_mission">
+    <img src="EMG/representational_learning/plots/tsne_visualization.png" alt="tsne" width="480" height="300">
+  </a>
+  <p align="center">
+    t-SNE 2D visualization 
+    <br />
 
-1. Clone the repository
-   ```sh
-   git clone https://github.com/yassa9/SceneSynth.git
-   cd SceneSynth
-   ```
-2. ```py
-   pip install ultralytics opencv-python transformers torch numpy pillow
-   ```
-3. Ensure you have `make` installed. On macOS and Linux, make is usually pre-installed. On Windows, you might need to install a tool like `MinGW` to get `make`.
+  </p>
+</div>
 
-### Building the Project
+#### Bottlenecks Found:
 
-  To build the project, navigate to the `src` directory and run `make`.
-   ```sh
-   cd src
-   ```
-   ```sh
-   make && ./SceneSynth
-   ```
+  - Reducing the data to only 3 components via PCA gonna lead to information loss.
+  - PCA is a linear technique, which assumes that the variance in the data is best captured by linear combinations of the original features.
+  - Depending on the size of the datasets, loading `X_train_tabular.npy` and `y_train_tabular.npy` files into memory might be a bottleneck.
+  - t-SNE is computationally expensive, especially as the dataset size increases. Even with a subset of 20,000 samples, t-SNE can take a significant amount of time to run. The time complexity of t-SNE is `O(N^2)`, which can be a bottleneck for larger datasets.
+  - Reducing the data to only 2 dimensions with t-SNE may oversimplify complex patterns. Although t-SNE captures non-linear relationships well, reducing to just 2 components might not always reveal the full structure of the data.
+  - The choice of perplexity (set to 30) can significantly affect the results. Perplexity controls the effective number of neighbors used in the analysis, and inappropriate values can lead to suboptimal clustering. Fine-tuning this parameter requires experimentation, which is computationally expensive.
+
+---
+
+### Problem III
+
+
+
+
+
 <!-- ROADMAP -->
 ## Roadmap
 
@@ -78,11 +101,4 @@ Ensure you have Python installed. You can download it from [python.org](https://
 - [ ] Support Windows & Mac, now only Linux
 - [ ] Easily add other Hugging Face models
 - [ ] Apply model on many photos at one time
-- [ ] Support Video models
-
-
-See the [open issues](https://github.com/yassa9/SceneSynth/issues) for a full list of proposed features.
-
-<p align="right">(<a href="#readme-top">Back Top</a>)</p>
-
-
+- [ ] Support Video model
