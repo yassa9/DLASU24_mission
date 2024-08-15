@@ -89,16 +89,16 @@ One is `models` and the other is `plots`, you can easily conclude what they're f
 
 ### Problem III
 
+#### Problem Statement:
+
+- You will need to review this [paper](https://github.com/yassa9/DLASU24_mission/blob/master/helpful_pdfs/oral_paper.pdf) and attempt to implement the described methodology to achieve the same results. The data required can be found [here](https://drive.google.com/drive/u/0/folders/1k24VOveceyqqYS4oaBR0iWLiDpsDEUk6).
+
+#### My Solution Choice:
+
+- In `DL_oral_paper` directory, there is `oral_classification.py` for implementing `InceptionResNetV2` method.
+
+#### Assumptions Taken:  
 
 
 
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Added yolov8 & depth-estimation v2
-- [x] Support Pose and Depth Estimation
-- [ ] Support Windows & Mac, now only Linux
-- [ ] Easily add other Hugging Face models
-- [ ] Apply model on many photos at one time
-- [ ] Support Video model
+#### Comparisons:
