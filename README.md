@@ -32,6 +32,16 @@ For Full details, see that [PDF](https://github.com/yassa9/DLASU24_mission/blob/
 
 ---
 
+## Setup Used
+
+- Nvidia GTX 1650
+- Intel Core i5 10500H
+- Arch Manjaroo Linux with i3WM
+- Pytorch CUDA 12.4
+- Dell G3 3500
+  
+---
+
 ### Problem I
 #### Problem Statement: 
 
