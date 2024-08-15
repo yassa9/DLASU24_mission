@@ -164,7 +164,7 @@ One is `models` and the other is `plots`, you can easily conclude what they're f
     <img src="DL_oral_paper/training_validation_loss_accuracy.png" alt="tsne" width="600" height="250">
   </a>
   <p align="center">
-    t-SNE 2D visualization 
+    Training validation loss and accuracy for inception model 
     <br />
   </p>
 </div>
@@ -185,4 +185,13 @@ Model saved to resnet18_model.pth
 ```
 
 - That is output last part (trimmed) out of `ResNet18` model.
+<div align="center">
+  <a href="https://github.com/yassa9/DLASU24_mission">
+    <img src="DL_oral_paper/training_validation_loss_accuracy_resnet.png" alt="tsne" width="600" height="250">
+  </a>
+  <p align="center">
+    Training validation loss and accuracy for resnet18 model 
+    <br />
+  </p>
+</div>
 
