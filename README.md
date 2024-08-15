@@ -105,10 +105,12 @@ One is `models` and the other is `plots`, you can easily conclude what they're f
 #### My Solution Choice:
 
 - In `DL_oral_paper` directory, there is `oral_classification.py` for implementing `InceptionResNetV2` method.
+- There is also `oral_resnet18.py` which is my choice of implementation, using model of `ResNet18` which is light and highly used by practitioners. 
 
 #### Assumptions Taken:  
 
 - Pretrained Inception V3 weights provide a good starting point for transfer learning.
+- Used 10 Epochs to train `InceptionResNetV2` model but 20 Epochs for `ResNet18` one.
 - Early stopping with patience=3 is sufficient to prevent overfitting.
 - Resize to (299, 299): Standardizes input size for the Inception model.
 - Random Rotation: Rotates the image randomly by up to 25 degrees.
