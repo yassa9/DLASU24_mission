@@ -72,7 +72,6 @@ One is `models` and the other is `plots`, you can easily conclude what they're f
   <p align="center">
     t-SNE 2D visualization 
     <br />
-
   </p>
 </div>
 
@@ -99,6 +98,61 @@ One is `models` and the other is `plots`, you can easily conclude what they're f
 
 #### Assumptions Taken:  
 
-
+- Pretrained Inception V3 weights provide a good starting point for transfer learning.
+- Early stopping with patience=3 is sufficient to prevent overfitting.
+- Resize to (299, 299): Standardizes input size for the Inception model.
+- Random Rotation: Rotates the image randomly by up to 25 degrees.
+- Random Horizontal Flip: Flips the image horizontally with a probability of 50%.
+- Random Resized Crop: Randomly resizes and crops the image within a scale of 0.8 to 1.0.
+- Color Jitter: Randomly adjusts brightness within a range of 0.5 to 1.0.
+- Random Affine Transformations:
+  - Shear: Applies up to 20 degrees of shear.
+  - Translation: Shifts the image up to 10% horizontally and vertically.
+  - Zoom: Scales the image randomly between 0.9 and 1.1.
+- Data normalization using the calculated mean and std by GPU not `imageNet` default mean and std.
 
 #### Comparisons:
+
+  ```
+  - Current Device Used: cuda
+  - Calculated Mean: tensor([0.7326, 0.5028, 0.4792], device='cuda:0')
+  - Calculated Std: tensor([0.1802, 0.2034, 0.1972], device='cuda:0')
+  Epoch [1/10], Loss: 2.3557
+  Validation Loss: 1.6437, Accuracy: 0.4446
+  Epoch [2/10], Loss: 1.7596
+  Validation Loss: 1.4956, Accuracy: 0.4805
+  Epoch [3/10], Loss: 1.4361
+  Validation Loss: 1.0890, Accuracy: 0.6420
+  Epoch [4/10], Loss: 1.2763
+  Validation Loss: 1.0288, Accuracy: 0.6800
+  Epoch [5/10], Loss: 1.0686
+  Validation Loss: 0.5928, Accuracy: 0.7967
+  Epoch [6/10], Loss: 0.8994
+  Validation Loss: 0.6022, Accuracy: 0.8171
+  Epoch [7/10], Loss: 0.8066
+  Validation Loss: 0.3699, Accuracy: 0.8774
+  Epoch [8/10], Loss: 0.7110
+  Validation Loss: 0.3158, Accuracy: 0.8930
+  Epoch [9/10], Loss: 0.5420
+  Validation Loss: 0.4702, Accuracy: 0.8492
+  Epoch [10/10], Loss: 0.5706
+  Validation Loss: 0.1679, Accuracy: 0.9416
+  Training complete
+  Test Loss: 0.1852, Accuracy: 0.9358
+  Plot saved to training_validation_loss_accuracy.png
+  Model saved to oral_inception_model.pth
+  - Duration: 00:31:32
+``` 
+- That was output of my script for `InceptionResNetV2` implementation.
+- We can observe that after only 10 epochs, accuracy is near `93.58 %` which is good comparable to that `~99%` of the original paper.
+- I believe that higher epochs gonna converge to the same accuracy at last.
+  
+<div align="center">
+  <a href="https://github.com/yassa9/DLASU24_mission">
+    <img src="DL_oral_paper/training_validation_loss_accuracy.png" alt="tsne" width="600" height="250">
+  </a>
+  <p align="center">
+    t-SNE 2D visualization 
+    <br />
+  </p>
+</div>
