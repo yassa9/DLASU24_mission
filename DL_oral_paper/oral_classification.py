@@ -27,9 +27,17 @@ initial_transforms = transforms.Compose([
     transforms.ToTensor()
 ])
 
+# Some Hyperparameters
+loader_batch_size = 16
+num_workers = 0
+learning_rate = 0.001
+num_epochs = 10
+patience = 3
+
 # Load the training dataset with the initial transforms
 train_dataset = ImageFolder(root=train_dir, transform=initial_transforms)
-train_loader = DataLoader(train_dataset, batch_size=64, shuffle=False, num_workers=4)
+train_loader = DataLoader(train_dataset, batch_size=loader_batch_size,
+                          shuffle=False, num_workers=num_workers)
 
 # Function to calculate mean and std through my GPU
 def calculate_mean_std(loader, device):
@@ -89,12 +97,6 @@ val_test_transforms = transforms.Compose([
     transforms.Normalize(mean=mean, std=std),
 ])
 
-# Some Hyperparameters
-loader_batch_size = 16
-num_workers = 0
-learning_rate = 0.001
-num_epochs = 10
-
 # Loading datasets => transformers
 train_dataset = ImageFolder(root=train_dir, transform=train_transforms)
 val_dataset = ImageFolder(root=val_dir, transform=val_test_transforms)
@@ -121,6 +123,8 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 train_losses = []
 val_losses = []
 val_accuracies = []
+best_val_loss = float('inf')
+early_stopping_counter = 0
 
 # Training loop
 for epoch in range(num_epochs):
@@ -169,7 +173,38 @@ for epoch in range(num_epochs):
     val_accuracies.append(val_acc.item())  # Save validation accuracy
     print(f"Validation Loss: {val_loss:.4f}, Accuracy: {val_acc:.4f}")
 
+    # Early Stopping Check
+    if val_loss < best_val_loss:
+        best_val_loss = val_loss
+        early_stopping_counter = 0
+        best_model_wts = model.state_dict()
+        torch.save(best_model_wts, 'best_oral_inception_model.pth')
+    else:
+        early_stopping_counter += 1
+        if early_stopping_counter >= patience:
+            print("Early stopping triggered!")
+            model.load_state_dict(best_model_wts)  # Load best weights
+            break
+
 print("Training complete")
+
+# Test phase
+model.eval()
+test_loss = 0.0
+corrects = 0
+
+with torch.no_grad():
+    for inputs, labels in test_loader:
+        inputs, labels = inputs.to(device), labels.to(device)
+        outputs = model(inputs)
+        loss = loss_func(outputs, labels)
+        test_loss += loss.item() * inputs.size(0)
+        _, preds = torch.max(outputs, 1)
+        corrects += torch.sum(preds == labels.data)
+
+test_loss = test_loss / len(test_loader.dataset)
+test_acc = corrects.double() / len(test_loader.dataset)
+print(f"Test Loss: {test_loss:.4f}, Accuracy: {test_acc:.4f}")
 
 # Plot the training and validation loss
 plt.figure(figsize=(12, 5))
