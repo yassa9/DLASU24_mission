@@ -49,10 +49,10 @@ Finger Angle Prediction from EMG Data
 
 #### DNN Model:
 
-- Batch size of 256 and epochs set to 10
-- Simple 80/20 train-test split
-- Mean Squared Error (MSE) used as the loss function
-- AdamW optimizer with a learning rate of 0.001
+- `Batch size` of 256 and epochs set to 10
+- Simple `80/20` train-test split
+- Mean Squared Error `MSE` used as the loss function
+- `AdamW` optimizer with a learning rate of 0.001
 - Fully connected DNN architecture with layer sizes of 256, 128, 64
 
 ```
@@ -88,6 +88,12 @@ Finger Angle Prediction from EMG Data
 
 #### CNN tabular:
 
+- `Batch size` of 256 and epochs set to 10
+- Simple `80/20` train-test split
+- Mean Squared Error `MSE` used as the loss function
+- `AdamW` optimizer with a learning rate of 0.001 and weight decay (L2 regularization) of 1e-4
+- CNN architecture with 1D convolutions, batch normalization, global average pooling, and dropout
+- `LeakyReLU` activation function with a negative slope of 0.01
 
 
 #### CNN sequential:
@@ -96,20 +102,20 @@ Finger Angle Prediction from EMG Data
 
 #### RNN model:
 
-- Batch size of 4 and epochs set to 10
-- Simple 80/20 train-test split
-- Mean Squared Error (MSE) used as the loss function
-- AdamW optimizer with a learning rate of 0.001
+- `Batch size` of 4 and epochs set to 10
+- Simple `80/20` train-test split
+- Mean Squared Error `MSE` used as the loss function
+- `AdamW` optimizer with a learning rate of 0.001
 - RNN architecture with LSTM layers, hidden size of 128, and 2 layers
 - Sequential EMG data is padded to match sequence lengths
 
 
 #### CNN-LSTM:
 
-- Batch size of 4 and epochs set to 10
-- Simple 80/20 train-test split
-- Mean Squared Error (MSE) used as the loss function
-- AdamW optimizer with a learning rate of 0.001
+- `Batch size` of 4 and epochs set to 10
+- Simple `80/20` train-test split
+- Mean Squared Error `MSE` used as the loss function
+- `AdamW` optimizer with a learning rate of 0.001
 - CNN-LSTM architecture with two 1D convolutional layers followed by LSTM layers
 - Hidden size of 128 and 2 LSTM layers
 - Input data assumed to be 3D (batch_size, sequence_length, features)
