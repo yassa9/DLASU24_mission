@@ -157,6 +157,16 @@ One is `models` and the other is `plots`, you can easily conclude what they're f
 
 <div align="center">
   <a href="https://github.com/yassa9/DLASU24_mission">
+    <img src="EMG/representational_learning/plots/pca_2d_visualization.png" alt="tsne" width="480" height="320">
+  </a>
+  <p align="center">
+    PCA 2D visualization
+    <br />
+  </p>
+</div>
+
+<div align="center">
+  <a href="https://github.com/yassa9/DLASU24_mission">
     <img src="EMG/representational_learning/plots/tsne_visualization.png" alt="tsne" width="480" height="300">
   </a>
   <p align="center">
