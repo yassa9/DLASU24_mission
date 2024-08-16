@@ -45,7 +45,8 @@ For Full details, see that [PDF](https://github.com/yassa9/DLASU24_mission/blob/
 ## Problem I
 #### Problem Statement:
 
-Finger Angle Prediction from EMG Data
+- Finger Angle Prediction from EMG Data
+- You will find models in `.py`, each with it's own sub-dir in `models` also plots 're in `plots` sub-dir in `EMG` directory.
 
 #### DNN Model:
 
@@ -95,10 +96,17 @@ Finger Angle Prediction from EMG Data
 - CNN architecture with 1D convolutions, batch normalization, global average pooling, and dropout
 - `LeakyReLU` activation function with a negative slope of 0.01
 
-
 #### CNN sequential:
 
-
+- `Batch size` of 4 and epochs set to 10
+- Simple `80/20` train-test split
+- Mean Squared Error `MSE` used as the loss function
+- `AdamW` optimizer with a learning rate of 0.001
+- CNN architecture with two 1D convolutional layers, ReLU activations, and max pooling
+- Dynamic calculation of the flattened size for fully connected layers
+- Input data reshaped to [batch_size, input_channels, seq_len] format
+- Predicting output for each time step (output_size * sequence length)
+- Sequential EMG data is padded to match sequence lengths
 
 #### RNN model:
 
@@ -109,7 +117,6 @@ Finger Angle Prediction from EMG Data
 - RNN architecture with LSTM layers, hidden size of 128, and 2 layers
 - Sequential EMG data is padded to match sequence lengths
 
-
 #### CNN-LSTM:
 
 - `Batch size` of 4 and epochs set to 10
@@ -119,7 +126,6 @@ Finger Angle Prediction from EMG Data
 - CNN-LSTM architecture with two 1D convolutional layers followed by LSTM layers
 - Hidden size of 128 and 2 LSTM layers
 - Input data assumed to be 3D (batch_size, sequence_length, features)
-
 
 <p align="right">(<a href="#readme-top">Back Top</a>)</p>
 
