@@ -37,7 +37,6 @@ class CNN_Model(nn.Module):
     def __init__(self, input_size, output_size):
         super(CNN_Model, self).__init__()
         
-        # 1D Convolutional layers
         self.conv1 = nn.Conv1d(in_channels=input_size, out_channels=64, kernel_size=5, stride=1, padding=2)
         self.conv2 = nn.Conv1d(in_channels=64, out_channels=128, kernel_size=5, stride=1, padding=2)
         
@@ -49,7 +48,6 @@ class CNN_Model(nn.Module):
         self._to_linear = None
         self.convs(torch.randn(1, input_size, 12246))  # Dummy forward pass to calculate the flattened size
         
-        # fully connected layers
         self.fc1 = nn.Linear(self._to_linear, 256)
         self.fc2 = nn.Linear(256, output_size * 12246)  # Predict for each time step
         
@@ -67,10 +65,8 @@ class CNN_Model(nn.Module):
         x = x.transpose(1, 2)  # From [batch_size, seq_len, input_size] to [batch_size, input_size, seq_len]
         x = self.convs(x)
         
-        # Flatten the tensor for fully connected layers
         x = x.view(x.size(0), -1)
         
-        # Apply fully connected layers
         x = self.relu(self.fc1(x))
         x = self.fc2(x)
         
@@ -125,14 +121,11 @@ for epoch in range(num_epochs):
     model.train()
     total_loss = 0.0
     for X_batch, y_batch in train_loader:
-        # Zero the gradients
         optimizer.zero_grad()
 
-        # Forward pass
         outputs = model(X_batch)
         loss = loss_func(outputs, y_batch)
 
-        # Backward pass and optimization
         loss.backward()
         optimizer.step()
 

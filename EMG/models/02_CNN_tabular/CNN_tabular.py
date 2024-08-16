@@ -99,16 +99,13 @@ for epoch in range(num_epochs):
     model.train()
     total_loss = 0.0
     for X_batch, y_batch in train_loader:
-        # zero the gradients
         optimizer.zero_grad()
 
-        # forward pass
         # input is already permuted [batch_size, channels, time_steps]
         outputs = model(X_batch)
 
         loss = loss_func(outputs, y_batch)
 
-        # backward pass and optimization
         loss.backward()
         optimizer.step()
 
