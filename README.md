@@ -21,13 +21,13 @@
 The mission includes 3 problems where participants are tasked with solving advanced deep learning problems. The test includes:
 
   - `Finger Angle Prediction from EMG Data`: Participants will use a preprocessed dataset to build five models (Linear DNN, CNN, RNN, CNN-LSTM). The models must be trained for no more than 10 epochs.
-  
+
   - `Data Representation`: Participants must write code to compress or represent the data in a low-dimensional format and visualize it.
-  
+
   - `Oral Classification Paper`: Implementing specific methodologies from oral classification paper using InceptionResNetV2 or alternative approach.
 
 For Full details, see that [PDF](https://github.com/yassa9/DLASU24_mission/blob/master/helpful_pdfs/DLASU24_mission.pdf)
-  
+
 <p align="right">(<a href="#readme-top">Back Top</a>)</p>
 
 ---
@@ -39,26 +39,41 @@ For Full details, see that [PDF](https://github.com/yassa9/DLASU24_mission/blob/
 - Arch Manjaroo Linux with i3WM
 - Pytorch CUDA 12.4
 - Dell G3 3500
-  
+
 ---
 
 ## Problem I
-#### Problem Statement: 
+#### Problem Statement:
 
 Finger Angle Prediction from EMG Data
 
 #### DNN Model:
 
-Batch size of 256 and epochs set to 10
-Simple 80/20 train-test split
-Mean Squared Error (MSE) used as the loss function
-AdamW optimizer with a learning rate of 0.001
-Fully connected DNN architecture with layer sizes of 256, 128, 64
-Assumes compatibility with both CUDA-enabled GPU and CPU
-No regularization techniques like dropout or early stopping
-Dataset is tabular and fully numeric
-Data preprocessed into PyTorch tensors without additional feature engineering
-Training and test data loaded fully into memory without batching during preprocessing
+- Batch size of 256 and epochs set to 10
+- Simple 80/20 train-test split
+- Mean Squared Error (MSE) used as the loss function
+- AdamW optimizer with a learning rate of 0.001
+- Fully connected DNN architecture with layer sizes of 256, 128, 64
+- Assumes compatibility with both CUDA-enabled GPU and CPU
+- No regularization techniques like dropout or early stopping
+- Dataset is tabular and fully numeric
+- Data preprocessed into PyTorch tensors without additional feature engineering
+- Training and test data loaded fully into memory without batching during preprocessing
+
+#### CNN tabular:
+
+
+
+#### CNN sequential:
+
+
+
+#### RNN model:
+
+
+
+#### CNN-LSTM:
+
 
 <p align="right">(<a href="#readme-top">Back Top</a>)</p>
 
@@ -72,7 +87,7 @@ For the same problem above with the same data used how we can represent the data
 write a code that compress the data or represent the data with low dimensional representation and plot it.
 
 In `EMG` directory, there is a sub-dir called `representational_learning` containing 2 other sub-dirs. \
-One is `models` and the other is `plots`, you can easily conclude what they're for ... 
+One is `models` and the other is `plots`, you can easily conclude what they're for ...
 
 #### My Solution Choice:
 
@@ -87,13 +102,13 @@ One is `models` and the other is `plots`, you can easily conclude what they're f
   - PCA is used to reduce the dimensionality of the data for visualization purposes. It assumes that the first three principal components capture a significant portion of the variance.
   - For t-SNE: using a random subset of the data (20,000 samples) as it's super computational expensive to include whole dataset.
   - The number of components for t-SNE is set to 2.
-    
+
 <div align="center">
   <a href="https://github.com/yassa9/DLASU24_mission">
     <img src="EMG/representational_learning/plots/tsne_visualization.png" alt="tsne" width="480" height="300">
   </a>
   <p align="center">
-    t-SNE 2D visualization 
+    t-SNE 2D visualization
     <br />
   </p>
 </div>
@@ -118,9 +133,9 @@ One is `models` and the other is `plots`, you can easily conclude what they're f
 #### My Solution Choice:
 
 - In `DL_oral_paper` directory, there is `oral_classification.py` for implementing `InceptionResNetV2` method.
-- There is also `oral_resnet18.py` which is my choice of implementation, using model of `ResNet18` which is light and highly used by practitioners. 
+- There is also `oral_resnet18.py` which is my choice of implementation, using model of `ResNet18` which is light and highly used by practitioners.
 
-#### Assumptions Taken:  
+#### Assumptions Taken:
 
 - Pretrained Inception V3 weights provide a good starting point for transfer learning.
 - Used 10 Epochs to train `InceptionResNetV2` model but 20 Epochs for `ResNet18` one.
@@ -167,17 +182,17 @@ One is `models` and the other is `plots`, you can easily conclude what they're f
   Plot saved to training_validation_loss_accuracy.png
   Model saved to oral_inception_model.pth
   - Duration: 00:31:32
-``` 
+```
 - That was output of my script for `InceptionResNetV2` implementation.
 - We can observe that after only 10 epochs, accuracy is near `93.58 %` which is good comparable to that `~99%` of the original paper.
 - I believe that higher epochs gonna converge to the same accuracy at last.
-  
+
 <div align="center">
   <a href="https://github.com/yassa9/DLASU24_mission">
     <img src="DL_oral_paper/training_validation_loss_accuracy.png" alt="tsne" width="600" height="250">
   </a>
   <p align="center">
-    Training validation loss and accuracy for inception model 
+    Training validation loss and accuracy for inception model
     <br />
   </p>
 </div>
@@ -203,8 +218,7 @@ Model saved to resnet18_model.pth
     <img src="DL_oral_paper/training_validation_loss_acc_resnet.png" alt="tsne" width="600" height="250">
   </a>
   <p align="center">
-    Training validation loss and accuracy for resnet18 model 
+    Training validation loss and accuracy for resnet18 model
     <br />
   </p>
 </div>
-
