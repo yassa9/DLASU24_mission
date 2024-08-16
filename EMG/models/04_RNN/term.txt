@@ -1,0 +1,38 @@
+Device Used: cuda
+X_train_tensor is on cuda:0
+y_train_tensor is on cuda:0
+Data shape: torch.Size([203, 12246, 12])
+Labels shape: torch.Size([203, 12246, 14])
+Epoch [1/10], Loss: 1546.8235
+Test Loss: 1513.9812
+Total time taken: 00:00:07
+Epoch [2/10], Loss: 1261.3002
+Test Loss: 1273.3635
+Total time taken: 00:00:07
+Epoch [3/10], Loss: 1068.8054
+Test Loss: 1107.4298
+Total time taken: 00:00:07
+Epoch [4/10], Loss: 943.5031
+Test Loss: 992.0752
+Total time taken: 00:00:07
+Epoch [5/10], Loss: 855.5915
+Test Loss: 909.5235
+Total time taken: 00:00:07
+Epoch [6/10], Loss: 792.9374
+Test Loss: 850.9544
+Total time taken: 00:00:07
+Epoch [7/10], Loss: 757.1845
+Test Loss: 809.9767
+Total time taken: 00:00:07
+Epoch [8/10], Loss: 723.8722
+Test Loss: 780.7632
+Total time taken: 00:00:07
+Epoch [9/10], Loss: 702.8119
+Test Loss: 759.9844
+Total time taken: 00:00:07
+Epoch [10/10], Loss: 693.1525
+Test Loss: 745.8681
+Total time taken: 00:00:07
+Model saved: RNN_model.pth
+Total time taken: 00:01:19
+

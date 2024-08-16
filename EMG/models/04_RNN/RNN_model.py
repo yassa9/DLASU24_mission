@@ -16,9 +16,6 @@ start_time = time.time()
 X_train = np.load('../../../X_train_padding.npy')
 y_train = np.load('../../../y_train_padding.npy')
 
-# normalizing target data to range [0, 1]
-y_train = y_train / 120.0
-
 # convert into tensors
 X_train_tensor = torch.tensor(X_train, dtype=torch.float32)
 y_train_tensor = torch.tensor(y_train, dtype=torch.float32)
@@ -36,51 +33,45 @@ print(f"Labels shape: {y_train_tensor.shape}")
 ##################################################
 
 # model architecture
-class RNN_SequentialModel(nn.Module):
-    def __init__(self, input_size, hidden_size, num_layers, output_size):
-        super(RNN_SequentialModel, self).__init__()
-        self.rnn = nn.RNN(input_size, hidden_size, num_layers, batch_first=True, nonlinearity='tanh')
-        self.fc1 = nn.Linear(hidden_size, 32)
-        self.dropout = nn.Dropout(0.3)
-        self.fc2 = nn.Linear(32, output_size)
-        self.leaky_relu = nn.LeakyReLU(negative_slope=0.01)
+class RNN_Model(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size, num_layers):
+        super(RNN_Model, self).__init__()
+        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
+        self.fc = nn.Linear(hidden_size, output_size)
 
     def forward(self, x):
-        out, _ = self.rnn(x)  # RNN returns output and hidden state
-        out = self.leaky_relu(out)
-        out = self.dropout(self.leaky_relu(self.fc1(out)))
-        out = self.fc2(out)
+        # LSTM forward pass
+        h_0 = torch.zeros(num_layers, x.size(0), hidden_size).to(device)
+        c_0 = torch.zeros(num_layers, x.size(0), hidden_size).to(device)
+        out, _ = self.lstm(x, (h_0, c_0))  # LSTM expects inputs of shape (batch_size, seq_len, input_size)
+        #out = out[:, -1, :]  # Get the output from the last time step
+        out = self.fc(out)
         return out
 
 # initializing the model
-input_size = X_train_tensor.shape[2]  # number of features (channels)
-hidden_size = 64  # RNN hidden size
-num_layers = 2  # number of RNN layers
-output_size = y_train_tensor.shape[2]  # number of outputs per time step
-model = RNN_SequentialModel(input_size, hidden_size, num_layers, output_size).to(device)
+input_size = X_train_tensor.shape[2]  # Assuming shape is (batch_size, sequence_length, features)
+hidden_size = 128
+num_layers = 2
+output_size = y_train_tensor.shape[2]
+model = RNN_Model(input_size, hidden_size, output_size, num_layers).to(device)
 
 ##################################################
 ##################################################
 
 # hyperparameters
 num_epochs = 10
-batch_size = 32  # Adjusted batch size
-learning_rate = 1e-4  # Reduced learning rate
-weight_decay = 1e-5  # Adjusted L2 regularization
-patience = 10  # Early stopping patience
+batch_size = 4
+learning_rate = 0.001
 
 # loss function and optimizer
 loss_func = nn.MSELoss()
-optimizer = optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+optimizer = optim.AdamW(model.parameters(), lr=learning_rate)
 
 # split the data into train and test sets
 train_ratio = 0.8
 dataset_size = len(X_train_tensor)
 train_size = int(train_ratio * dataset_size)
 test_size = dataset_size - train_size
-
-# reshape input data for RNN: [samples, time_steps, features]
-# X_train_tensor is already in [samples, time_steps, features] format
 
 # creating a dataset
 dataset = TensorDataset(X_train_tensor, y_train_tensor)
@@ -96,15 +87,12 @@ test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 train_losses = []
 test_losses = []
 
-# early stopping variables
-best_test_loss = float('inf')
-epochs_no_improve = 0
-
 ##################################################
 ##################################################
 
 # training loop
 for epoch in range(num_epochs):
+    epoch_start_time = time.time()
     model.train()
     total_loss = 0.0
     for X_batch, y_batch in train_loader:
@@ -113,20 +101,17 @@ for epoch in range(num_epochs):
 
         # Forward pass
         outputs = model(X_batch)
-
-        # Compute loss
         loss = loss_func(outputs, y_batch)
 
         # Backward pass and optimization
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  # Gradient clipping
         optimizer.step()
 
         total_loss += loss.item()
 
     avg_train_loss = total_loss / len(train_loader)
     train_losses.append(avg_train_loss)
-    print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {avg_train_loss:.4f}")
+    print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {total_loss/len(train_loader):.4f}")
 
     # evaluating the model
     model.eval()
@@ -139,34 +124,34 @@ for epoch in range(num_epochs):
 
     avg_test_loss = test_loss / len(test_loader)
     test_losses.append(avg_test_loss)
-    print(f"Test Loss: {avg_test_loss:.4f}")
+    print(f"Test Loss: {test_loss/len(test_loader):.4f}")
 
-    # Check early stopping condition
-    if avg_test_loss < best_test_loss:
-        best_test_loss = avg_test_loss
-        epochs_no_improve = 0
-    else:
-        epochs_no_improve += 1
-        if epochs_no_improve == patience:
-            print("Early stopping triggered")
-            break
+    epoch_end_time = time.time()
+    epoch_elapsed_time = epoch_end_time - epoch_start_time
+
+    hours = int(epoch_elapsed_time // 3600)
+    minutes = int((epoch_elapsed_time % 3600) // 60)
+    seconds = int(epoch_elapsed_time % 60)
+
+    print(f"Total time taken: {hours:02}:{minutes:02}:{seconds:02}")
 
 ##################################################
 ##################################################
 
-# plotting
+# plotting the loss curves
 plt.figure()
-plt.plot(range(1, len(train_losses) + 1), train_losses, label='Training Loss')
-plt.plot(range(1, len(test_losses) + 1), test_losses, label='Test Loss')
+plt.plot(range(1, num_epochs + 1), train_losses, label='Training Loss')
+plt.plot(range(1, num_epochs + 1), test_losses, label='Test Loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.title('Training and Test Loss Over Epochs')
 plt.legend()
 plt.grid(True)
-plt.savefig('../../plots/rnn_seq_loss_plot.png')
+plt.savefig('../../plots/RNN_loss_plot.png')
 plt.show()
 
-model_path = 'RNN_seq.pth'
+# save the model
+model_path = 'RNN_model.pth'
 torch.save(model.state_dict(), model_path)
 print(f"Model saved: {model_path}")
 
