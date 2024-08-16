@@ -96,9 +96,23 @@ Finger Angle Prediction from EMG Data
 
 #### RNN model:
 
+- Batch size of 4 and epochs set to 10
+- Simple 80/20 train-test split
+- Mean Squared Error (MSE) used as the loss function
+- AdamW optimizer with a learning rate of 0.001
+- RNN architecture with LSTM layers, hidden size of 128, and 2 layers
+- Sequential EMG data is padded to match sequence lengths
 
 
 #### CNN-LSTM:
+
+- Batch size of 4 and epochs set to 10
+- Simple 80/20 train-test split
+- Mean Squared Error (MSE) used as the loss function
+- AdamW optimizer with a learning rate of 0.001
+- CNN-LSTM architecture with two 1D convolutional layers followed by LSTM layers
+- Hidden size of 128 and 2 LSTM layers
+- Input data assumed to be 3D (batch_size, sequence_length, features)
 
 
 <p align="right">(<a href="#readme-top">Back Top</a>)</p>

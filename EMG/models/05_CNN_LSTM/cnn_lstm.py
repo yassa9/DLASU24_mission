@@ -33,34 +33,46 @@ print(f"Labels shape: {y_train_tensor.shape}")
 ##################################################
 
 # model architecture
-class RNN_Model(nn.Module):
+class CNN_LSTM_Model(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, num_layers):
-        super(RNN_Model, self).__init__()
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
+        super(CNN_LSTM_Model, self).__init__()
+        
+        # CNN layers with padding to maintain sequence length
+        self.conv1 = nn.Conv1d(in_channels=input_size, out_channels=64, kernel_size=3, padding=1)
+        self.conv2 = nn.Conv1d(in_channels=64, out_channels=128, kernel_size=3, padding=1)
+        
+        # LSTM layers
+        self.lstm = nn.LSTM(128, hidden_size, num_layers, batch_first=True)
+
+        # Fully connected layer
         self.fc = nn.Linear(hidden_size, output_size)
 
     def forward(self, x):
-        # LSTM forward pass
+        # x shape: (batch_size, sequence_length, input_size)
+        x = x.permute(0, 2, 1)  # Switch to (batch_size, input_size, sequence_length) for CNN
+        x = torch.relu(self.conv1(x))
+        x = torch.relu(self.conv2(x))
+        
+        x = x.permute(0, 2, 1)  # Switch back to (batch_size, sequence_length, channels) for LSTM
         h_0 = torch.zeros(num_layers, x.size(0), hidden_size).to(device)
         c_0 = torch.zeros(num_layers, x.size(0), hidden_size).to(device)
         out, _ = self.lstm(x, (h_0, c_0))  # LSTM expects inputs of shape (batch_size, seq_len, input_size)
-        #out = out[:, -1, :]  # Get the output from the last time step
         out = self.fc(out)
         return out
 
 # initializing the model
-input_size = X_train_tensor.shape[2]  # Assuming shape is (batch_size, sequence_length, features)
+input_size = X_train_tensor.shape[2]  # Features per timestep
 hidden_size = 128
 num_layers = 2
-output_size = y_train_tensor.shape[2]
-model = RNN_Model(input_size, hidden_size, output_size, num_layers).to(device)
+output_size = y_train_tensor.shape[2]  # Output features per timestep
+model = CNN_LSTM_Model(input_size, hidden_size, output_size, num_layers).to(device)
 
 ##################################################
 ##################################################
 
 # hyperparameters
 num_epochs = 10
-batch_size = 8
+batch_size = 4
 learning_rate = 0.001
 
 # loss function and optimizer
@@ -111,7 +123,7 @@ for epoch in range(num_epochs):
 
     avg_train_loss = total_loss / len(train_loader)
     train_losses.append(avg_train_loss)
-    print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {total_loss/len(train_loader):.4f}")
+    print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {avg_train_loss:.4f}")
 
     # evaluating the model
     model.eval()
@@ -124,7 +136,7 @@ for epoch in range(num_epochs):
 
     avg_test_loss = test_loss / len(test_loader)
     test_losses.append(avg_test_loss)
-    print(f"Test Loss: {test_loss/len(test_loader):.4f}")
+    print(f"Test Loss: {avg_test_loss:.4f}")
 
     epoch_end_time = time.time()
     epoch_elapsed_time = epoch_end_time - epoch_start_time
@@ -147,11 +159,11 @@ plt.ylabel('Loss')
 plt.title('Training and Test Loss Over Epochs')
 plt.legend()
 plt.grid(True)
-plt.savefig('../../plots/RNN_loss_plot.png')
+plt.savefig('../../plots/CNN_LSTM_loss_plot.png')
 plt.show()
 
 # save the model
-model_path = 'RNN_model.pth'
+model_path = 'CNN_LSTM_model.pth'
 torch.save(model.state_dict(), model_path)
 print(f"Model saved: {model_path}")
 
@@ -167,3 +179,4 @@ minutes = int((elapsed_time % 3600) // 60)
 seconds = int(elapsed_time % 60)
 
 print(f"Total time taken: {hours:02}:{minutes:02}:{seconds:02}")
+

@@ -1,0 +1,38 @@
+Device Used: cuda
+X_train_tensor is on cuda:0
+y_train_tensor is on cuda:0
+Data shape: torch.Size([203, 12246, 12])
+Labels shape: torch.Size([203, 12246, 14])
+Epoch [1/10], Loss: 1529.2563
+Test Loss: 1650.0692
+Total time taken: 00:00:08
+Epoch [2/10], Loss: 1238.1039
+Test Loss: 1389.7763
+Total time taken: 00:00:08
+Epoch [3/10], Loss: 1065.2618
+Test Loss: 1214.1458
+Total time taken: 00:00:08
+Epoch [4/10], Loss: 934.0823
+Test Loss: 1085.4606
+Total time taken: 00:00:08
+Epoch [5/10], Loss: 843.3138
+Test Loss: 994.2245
+Total time taken: 00:00:08
+Epoch [6/10], Loss: 784.8186
+Test Loss: 930.8347
+Total time taken: 00:00:08
+Epoch [7/10], Loss: 749.9209
+Test Loss: 884.1604
+Total time taken: 00:00:08
+Epoch [8/10], Loss: 721.2779
+Test Loss: 851.6275
+Total time taken: 00:00:08
+Epoch [9/10], Loss: 702.2048
+Test Loss: 826.5888
+Total time taken: 00:00:08
+Epoch [10/10], Loss: 686.6478
+Test Loss: 809.7029
+Total time taken: 00:00:08
+Model saved: CNN_LSTM_model.pth
+Total time taken: 00:01:30
+
