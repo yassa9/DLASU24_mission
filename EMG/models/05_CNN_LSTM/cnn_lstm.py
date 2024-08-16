@@ -37,14 +37,12 @@ class CNN_LSTM_Model(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, num_layers):
         super(CNN_LSTM_Model, self).__init__()
         
-        # CNN layers with padding to maintain sequence length
         self.conv1 = nn.Conv1d(in_channels=input_size, out_channels=64, kernel_size=3, padding=1)
         self.conv2 = nn.Conv1d(in_channels=64, out_channels=128, kernel_size=3, padding=1)
         
         # LSTM layers
         self.lstm = nn.LSTM(128, hidden_size, num_layers, batch_first=True)
 
-        # Fully connected layer
         self.fc = nn.Linear(hidden_size, output_size)
 
     def forward(self, x):
@@ -108,14 +106,11 @@ for epoch in range(num_epochs):
     model.train()
     total_loss = 0.0
     for X_batch, y_batch in train_loader:
-        # Zero the gradients
         optimizer.zero_grad()
 
-        # Forward pass
         outputs = model(X_batch)
         loss = loss_func(outputs, y_batch)
 
-        # Backward pass and optimization
         loss.backward()
         optimizer.step()
 

@@ -96,14 +96,11 @@ for epoch in range(num_epochs):
     model.train()
     total_loss = 0.0
     for X_batch, y_batch in train_loader:
-        # Zero the gradients
         optimizer.zero_grad()
 
-        # Forward pass
         outputs = model(X_batch)
         loss = loss_func(outputs, y_batch)
 
-        # Backward pass and optimization
         loss.backward()
         optimizer.step()
 
