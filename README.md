@@ -3,7 +3,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/yassa9/DLASU24_mission">
-    <img src="other/logo.png" alt="Logo" width="88" height="80">
+    <img src="other/logo.png" alt="Logo" width="176" height="160">
   </a>
 
   <h1 align="center" style="font-size: 60px;">DLASU24_mission</h1>
