@@ -47,6 +47,19 @@ For Full details, see that [PDF](https://github.com/yassa9/DLASU24_mission/blob/
 
 Finger Angle Prediction from EMG Data
 
+#### DNN Model:
+
+Batch size of 256 and epochs set to 10
+Simple 80/20 train-test split
+Mean Squared Error (MSE) used as the loss function
+AdamW optimizer with a learning rate of 0.001
+Fully connected DNN architecture with layer sizes of 256, 128, 64
+Assumes compatibility with both CUDA-enabled GPU and CPU
+No regularization techniques like dropout or early stopping
+Dataset is tabular and fully numeric
+Data preprocessed into PyTorch tensors without additional feature engineering
+Training and test data loaded fully into memory without batching during preprocessing
+
 <p align="right">(<a href="#readme-top">Back Top</a>)</p>
 
 ---
